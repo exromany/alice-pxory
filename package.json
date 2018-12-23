@@ -1,0 +1,30 @@
+{
+  "name": "alice-proxy",
+  "version": "0.1.0",
+  "description": "alice skill to help testing other skills",
+  "main": "src/index.js",
+  "repository": "github.com/exromany/alice-proxy",
+  "author": "exromany",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "micro build",
+    "dev": "micro-dev build --watch build",
+    "inspect": "node --inspect node_modules/.bin/micro-dev",
+    "build": "tsc",
+    "build:watch": "tsc -w",
+    "deploy": "now && now alias"
+  },
+  "dependencies": {
+    "abort-controller": "^2.0.0",
+    "firebase-admin": "^6.4.0",
+    "micro": "^9.3.3",
+    "node-fetch": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/micro": "^7.3.3",
+    "@types/node-fetch": "^2.1.4",
+    "micro-dev": "^3.0.0",
+    "typescript": "^3.2.2"
+  }
+}

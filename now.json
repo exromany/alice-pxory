@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "name": "alice-proxy",
+  "alias": "alice-proxy",
+  "builds": [
+    { "src": "build/server.js", "use": "@now/node-server" }
+  ],
+  "routes": [
+    { "src": "/", "dest": "build/server.js" }
+  ]
+}

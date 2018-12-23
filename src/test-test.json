@@ -1,0 +1,29 @@
+{
+    "meta": {
+        "client_id": "ru.yandex.searchplugin/7.16 (none none; android 4.4.2)",
+        "interfaces": {
+            "screen": {}
+        },
+        "locale": "ru-RU",
+        "timezone": "UTC"
+    },
+    "request": {
+        "command": "test",
+        "nlu": {
+            "entities": [],
+            "tokens": [
+                "test"
+            ]
+        },
+        "original_utterance": "test",
+        "type": "SimpleUtterance"
+    },
+    "session": {
+        "message_id": 0,
+        "new": true,
+        "session_id": "e9c01eb0-9674fd98-1ca7e20e-ef75f016",
+        "skill_id": "ab047996-7a70-4ef3-b0a2-514dcfbdcf95",
+        "user_id": "B76C7BB349616A092968BF6916DBF3970F7FB3BE8D5BE7B6625CA8631D0EA5ED"
+    },
+    "version": "1.0"
+}
