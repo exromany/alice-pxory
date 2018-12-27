@@ -18,9 +18,9 @@ export async function getSkillById(skillId: string): Promise<Skill | null> {
   return rawSkill.val();
 }
 
-export async function checkSkillSecret(skillId: string, secret: string): Promise<Skill | null> {
+export async function checkSkillSecret(skillId: string, secret: string): Promise<boolean> {
   const skill = await getSkillById(skillId);
-  return skill && equalWords(skill.secret, secret) ? skill : null;
+  return verifySkillSecret(skill, secret);
 }
 
 export async function updateLastAccess(skillId: string): Promise<void> {
@@ -28,6 +28,10 @@ export async function updateLastAccess(skillId: string): Promise<void> {
   return updateSkill(skillId, {
     last_access: now,
   })
+}
+
+export function verifySkillSecret(skill: Skill | null, secret = ''): boolean {
+  return skill !== null && equalWords(skill.secret, secret);
 }
 
 export function equalWords(...words: string[]): boolean {

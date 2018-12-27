@@ -13,7 +13,8 @@
     "inspect": "node --inspect node_modules/.bin/micro-dev",
     "build": "tsc",
     "build:watch": "tsc -w",
-    "deploy": "now && now alias"
+    "deploy:now": "now && now alias",
+    "deploy": "yarn build && yarn deploy:now"
   },
   "dependencies": {
     "abort-controller": "^2.0.0",

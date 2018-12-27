@@ -1,8 +1,9 @@
 import AbortController from 'abort-controller';
 import fetch from 'node-fetch';
-import { simpleResponse } from './simpleResponse';
-import { Session, updateMessageId } from './store/session';
-import { AliceRequest, AliceResponse, Request, Response } from './types/alice';
+import { simpleResponse } from '../alice/simpleResponse';
+import { Session, updateMessageId } from '../store/session';
+import { Question, Answer, Request } from '../alice/types';
+import { CustomResponse, proxyResponse } from './customResponse';
 
 const EMPTY_REQUEST: Request = {
   command: '',
@@ -14,8 +15,8 @@ const EMPTY_REQUEST: Request = {
   type: 'SimpleUtterance'
 }
 
-export async function proxy(session: Session, data: AliceRequest): Promise<Response> {
-  const request: AliceRequest = {
+export async function proxy(session: Session, data: Question): Promise<CustomResponse> {
+  const request: Question = {
     ...data,
     request: {
       ...(session.message_id === 0
@@ -35,9 +36,8 @@ export async function proxy(session: Session, data: AliceRequest): Promise<Respo
   updateMessageId(session);
 
   try {
-    const { response } = await externalCall(session.skill_url, body) as AliceResponse;
-    response.proxy = true;
-    return response;
+    const { response } = await externalCall(session.skill_url, body) as Answer;
+    return proxyResponse(response);
   } catch (err) {
     let { message } = err;
     switch (err.name) {

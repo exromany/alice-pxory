@@ -1,28 +1,18 @@
 import { IncomingMessage } from 'http';
 import { json } from 'micro';
+import { buildAnswer } from './alice/buildAnswer';
+import { Answer, Question } from './alice/types';
+import { cleanupResponse } from './handler/customResponse';
 import { handler } from './handler';
 import { logRequestAndResponse } from './store/log';
-import { AliceRequest, AliceResponse } from './types/alice';
 
-export default async (req: IncomingMessage): Promise<AliceResponse> => {
-  const aliceRequest = await json(req) as AliceRequest;
+export default async (req: IncomingMessage): Promise<Answer> => {
+  const aliceRequest = await json(req) as Question;
   const { session, version } = aliceRequest;
 
-  const response = await handler(aliceRequest);
+  const customResponse = await handler(aliceRequest);
+  logRequestAndResponse(aliceRequest, customResponse);
+  const response = cleanupResponse(customResponse);
 
-  if (!response.skip_log) {
-    logRequestAndResponse(aliceRequest, response);
-  }
-  delete response.proxy;
-  delete response.skip_log;
-
-  return {
-    response,
-    session: {
-      session_id: session.session_id,
-      skill_id: session.user_id,
-      user_id: session.user_id,
-    },
-    version,
-  };
+  return buildAnswer(response, session, version);
 };

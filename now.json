@@ -2,10 +2,13 @@
   "version": 2,
   "name": "alice-proxy",
   "alias": "alice-proxy",
+  "regions": ["bru1"],
   "builds": [
-    { "src": "build/server.js", "use": "@now/node-server" }
+    { "src": "build/server.js", "use": "@now/node-server" },
+    { "src": "site/package.json", "use": "@now/next" }
   ],
   "routes": [
-    { "src": "/", "dest": "build/server.js" }
+    { "src": "/alice", "dest": "/build/server.js" },
+    { "src": "/(.*)", "dest": "/site/$1" }
   ]
 }

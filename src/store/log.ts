@@ -1,9 +1,11 @@
-import { AliceRequest, Response } from './../types/alice';
+import { CustomResponse } from '../handler/customResponse';
+import { Question } from '../alice/types';
 import { db } from './db';
 
 export type RequestLog = {
   request: string;
   response: string;
+  command: string;
   session_id: string;
   proxy: boolean;
   ts: number;
@@ -12,13 +14,18 @@ export type RequestLog = {
 
 export const dbLogs = db.ref('logs/requests');
 
-export async function logRequestAndResponse(request: AliceRequest, response: Response): Promise<void> {
+export async function logRequestAndResponse(request: Question, response: CustomResponse): Promise<void> {
+  if (response.skip_log) {
+    return;
+  }
+
   const now = new Date();
   const requestLog: RequestLog = {
     request: JSON.stringify(request),
     response: JSON.stringify(response),
+    command: request.request.command,
     session_id: request.session.session_id,
-    proxy: Boolean(response.proxy),
+    proxy: Boolean(response.via_proxy),
     ts: now.valueOf(),
     date: now.toISOString(),
   }

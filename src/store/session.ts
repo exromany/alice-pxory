@@ -1,4 +1,4 @@
-import { RequestSession } from '../types/alice';
+import { QuestionSession } from '../alice/types';
 import { db } from './db';
 import { Skill } from './skill';
 
@@ -30,7 +30,7 @@ export async function getSessionById(userId: string): Promise<Session | null> {
   return rawSession.val();
 }
 
-export async function getActiveSession(session: RequestSession): Promise<Session | null> {
+export async function getActiveSession(session: QuestionSession): Promise<Session | null> {
   const lastSession = await getSessionById(session.user_id);
   if (lastSession && lastSession.session_id === session.session_id
     && lastSession.wrong_secret < WRONG_SECRET_ATTEMPTS
@@ -41,15 +41,19 @@ export async function getActiveSession(session: RequestSession): Promise<Session
   return null;
 }
 
-export async function startSession(session: RequestSession, skill: Skill): Promise<void> {
-  return createSession(session.user_id, {
+export async function startSession(session: QuestionSession, skill: Skill, confirmed = false): Promise<Session> {
+  const newSession: Session = {
     user_id: session.user_id,
     session_id: session.session_id,
     skill_id: skill.skill_id,
     skill_url: skill.skill_url,
     message_id: 0,
     wrong_secret: 0,
-  });
+    detached: false,
+    confirmed,
+  }
+  await createSession(session.user_id, newSession);
+  return newSession;
 }
 
 export async function confirmSession(session: Session): Promise<void> {

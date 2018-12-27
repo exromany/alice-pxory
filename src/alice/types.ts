@@ -1,17 +1,17 @@
-export type AliceRequest = {
+export type Question = {
   meta: Meta;
   request: Request;
-  session: RequestSession;
-  version: string;
+  session: QuestionSession;
+  version: Version;
 }
 
-export type AliceResponse = {
+export type Answer = {
   response: Response;
-  session: ResponseSesstion;
-  version: string;
+  session: AnswerSesstion;
+  version: Version;
 }
 
-export type RequestSession = {
+export type QuestionSession = {
   new: boolean;
   message_id: number;
   session_id: string;
@@ -19,11 +19,9 @@ export type RequestSession = {
   user_id: string;
 }
 
-export type ResponseSesstion = {
-  session_id: string;
-  skill_id: string;
-  user_id: string;
-}
+export type Version = string;
+
+export type AnswerSesstion = Pick<QuestionSession, 'session_id' | 'skill_id' | 'user_id'>;
 
 export type Request = {
   command: string;
@@ -41,8 +39,11 @@ export type Nlu = {
 
 export type Entity = {
   tokens: Tokens;
-  type: 'YANDEX.GEO' | 'YANDEX.FIO' | 'YANDEX.NUMBER' | 'YANDEX.DATETIME';
-  value: ValueGeo | ValueFio | ValueNumber | ValueDatetime;
+} & (EntityGeo | EntityFio | EntityDatetime | EntityNumber);
+
+export type EntityDatetime = {
+  type: 'YANDEX.DATETIME';
+  value: ValueDatetime;
 }
 
 export type ValueDatetime = {
@@ -58,11 +59,26 @@ export type ValueDatetime = {
   minute_is_relative?: boolean;
 }
 
+export type EntityNumber = {
+  type: 'YANDEX.NUMBER';
+  value: ValueNumber;
+}
+
 export type ValueNumber = number;
+
+export type EntityFio = {
+  type: 'YANDEX.FIO';
+  value: ValueFio;
+}
 
 export type ValueFio = {
   first_name?: string;
   last_name?: string;
+}
+
+export type EntityGeo = {
+  type: 'YANDEX.GEO';
+  value: ValueGeo;
 }
 
 export type ValueGeo = {
@@ -101,15 +117,13 @@ export type Response = {
   card?: ImageCard | ListCard;
   buttons?: Button[];
   end_session: boolean;
-  proxy?: boolean; // app specified property
-  skip_log?: boolean; // app specified property
 }
 
 export type Button = {
   title: string;
-  payload: Payload;
-  url: string;
-  hide: boolean;
+  payload?: Payload;
+  url?: string;
+  hide?: boolean;
 }
 
 export type ImageCard = {
