@@ -1,7 +1,11 @@
-node_modules
-yarn-error.log
-
 build
 .next
 dist
 serviceAccountKey.json
+
+node_modules/
+lerna-debug.log
+yarn-error.log
+npm-debug.log
+packages/*/lib
+.idea

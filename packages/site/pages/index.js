@@ -1,5 +1,5 @@
 import { Anchor, Text, Box, Button, Grommet, grommet } from 'grommet';
-import RegistrationFrom from '../components/RegistrationForm';
+// import RegistrationFrom from '../components/RegistrationForm';
 
 const Index = () => (
   <Grommet theme={grommet}>

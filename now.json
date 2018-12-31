@@ -4,11 +4,12 @@
   "alias": "alice-proxy",
   "regions": ["bru1"],
   "builds": [
-    { "src": "build/server.js", "use": "@now/node-server" },
-    { "src": "site/package.json", "use": "@now/next" }
+    { "src": "packages/skill/build/server.js", "use": "@now/node-server" },
+    { "src": "packages/site/package.json", "use": "@now/next" }
   ],
   "routes": [
-    { "src": "/alice", "dest": "/build/server.js" },
-    { "src": "/(.*)", "dest": "/site/$1" }
+    { "src": "/alice", "dest": "/packages/skill/build/server.js" },
+    { "src": "/alise", "dest": "/packages/skill/build/server.js" },
+    { "src": "/(.*)", "dest": "/packages/site/$1" }
   ]
 }

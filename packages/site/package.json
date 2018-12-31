@@ -1,12 +1,12 @@
 {
-  "name": "alice-proxy-site",
+  "name": "@exromany/alice-proxy-site",
   "version": "1.0.0",
   "description": "site for alice-proxy skill",
   "main": "index.js",
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "next",
+    "dev": "next -p 3001",
     "build": "next build",
     "start": "next start",
     "now-build": "next build && next export -o dist"

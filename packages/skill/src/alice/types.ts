@@ -108,15 +108,14 @@ export type Interfaces = {
   screen?: Screen;
 }
 
-export type Screen = {
-}
+export type Screen = { }
 
 export type Response = {
   text: string;
   tts?: string;
   card?: ImageCard | ListCard;
   buttons?: Button[];
-  end_session: boolean;
+  end_session?: boolean;
 }
 
 export type Button = {

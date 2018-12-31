@@ -5,13 +5,12 @@ export type CustomResponse = Response & Partial<{
   skip_log: boolean;
 }>
 
-export function skipLogResponse(text: string): CustomResponse {
+export function simpleResponse(text: string, endSession = false): Response {
   return {
     text,
-    end_session: false,
-    skip_log: true,
+    end_session: endSession,
   };
-}
+};
 
 export function proxyResponse(response: Response): CustomResponse {
   return {

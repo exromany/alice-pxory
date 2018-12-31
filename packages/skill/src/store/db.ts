@@ -1,6 +1,6 @@
 import { credential, database, initializeApp } from 'firebase-admin';
 
-const serviceAccount = require('../../serviceAccountKey.json');
+const serviceAccount = require('../../../../serviceAccountKey.json');
 
 try {
   initializeApp({
