@@ -20,6 +20,10 @@ export const welcomeMessage: Response = {
   }]
 }
 
+export const restoreWelcomeMessage: Response = {
+  text: 'С возвращением!\nЧтобы продолжить работу с последним навыком - назови секретное слово.',
+}
+
 export const helpMessage: Response = {
   text: 'После авторизации все запросы будут пересылаться на указанный url.\nОтвет от твоего навыка будет передаваться обратно Алисе.\nПересылку запросов можно остановить коммандой "закрой навык".',
   buttons: [{

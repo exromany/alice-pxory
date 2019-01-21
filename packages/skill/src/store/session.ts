@@ -39,14 +39,23 @@ export async function getSessionById(userId: string): Promise<Session | null> {
   return rawSession.val();
 }
 
-export async function getUserSession(session: QuestionSession): Promise<Session | null> {
-  const lastSession = await getSessionById(session.user_id);
+export function isActiveSession(lastSession: Session | null, session: QuestionSession): boolean {
   if (lastSession && lastSession.session_id === session.session_id
     && lastSession.status !== 'detached'
   ) {
-    return lastSession;
+    return true;
   }
-  return null;
+  return false;
+}
+
+export async function getUserSession(session: QuestionSession): Promise<Session | null> {
+  const lastSession = await getSessionById(session.user_id);
+  return isActiveSession(lastSession, session) ? lastSession : null;
+}
+
+export async function getPrevUserSession(session: QuestionSession): Promise<Session | null> {
+  const lastSession = await getSessionById(session.user_id);
+  return lastSession && lastSession.skill_id ? lastSession : null;
 }
 
 export async function startSession(session: QuestionSession, skill: Skill, confirmed = false): Promise<Session> {
@@ -81,6 +90,21 @@ export async function confirmSession(session: Session): Promise<void> {
       message_id: 0,
     },
   });
+}
+
+export async function restartSession(lastSession: Session, session: QuestionSession): Promise<Session> {
+  const upgradeFields: Partial<Session> = {
+    session_id: session.session_id,
+    status: 'active',
+    data: {
+      message_id: 0,
+    },
+  }
+  await updateSession(lastSession.user_id, upgradeFields);
+  return {
+    ...lastSession,
+    ...upgradeFields,
+  };
 }
 
 export async function detachSession(session: Session): Promise<void> {
