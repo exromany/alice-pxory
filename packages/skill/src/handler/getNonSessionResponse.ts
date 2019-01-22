@@ -1,11 +1,18 @@
 import { Question } from '../alice/types';
-import { startSession, startSkillRegistration, Session, restartSession } from '../store/session';
-import { getSkillById, verifySkillSecret, checkSkillSecret } from '../store/skill';
+import { restartSession, Session, startSession, startSkillRegistration } from '../store/session';
+import { checkSkillSecret, getSkillById, verifySkillSecret } from '../store/skill';
 import { extractSkillIdAndSecret, extractSkillUrl } from '../utils/extractSkillIdAndSecret';
 import { CustomResponse } from './customResponse';
 import { startProxying } from './getSessionResponse';
 import { checkSkillUrl } from './proxy';
-import { isHelpRequest, isHiRequest, isRegistrationRequest, isStopRequest, normalizeCommand } from './questions';
+import {
+  isHelpRequest,
+  isHiRequest,
+  isRegistrationRequest,
+  isStopRequest,
+  isVersionRequest,
+  normalizeCommand,
+} from './questions';
 import {
   askForSecretMessage,
   continueRegistrationMessage,
@@ -15,6 +22,7 @@ import {
   quitMessage,
   registrationHelpMessage,
   startRegistrationMessage,
+  versionMessage,
   welcomeMessage,
   wrongSkillIdMessage,
 } from './responses';
@@ -28,6 +36,10 @@ export async function getNonSessionResponse(aliceRequest: Question, userSession:
       const newSession = await restartSession(userSession, session);
       return startProxying(newSession, aliceRequest);
     }
+  }
+
+  if (isVersionRequest(request)) {
+    return versionMessage;
   }
 
   if (isHelpRequest(request)) {

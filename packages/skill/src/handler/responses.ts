@@ -1,6 +1,8 @@
 import { Response } from '../alice/types';
 import { CustomResponse } from './customResponse';
 
+const version = require('../../package.json').version;
+
 export const serviceMessage: CustomResponse = {
   text: 'Тест',
   skip_log: true,
@@ -76,6 +78,10 @@ export const restoreWelcomeMessage = (skillId: string): Response => {
     text: `С возвращением!\nЧтобы продолжить работу с навыком [${skillId}] - назови секретное слово.`,
   }
 }
+
+export const versionMessage: Response = {
+  text: `[${version}]`,
+};
 
 export const proxyTestErrorMessage = (error: string): Response => {
   return {

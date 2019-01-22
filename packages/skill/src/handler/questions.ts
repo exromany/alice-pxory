@@ -47,3 +47,7 @@ export function isYesRequest(request: Request): boolean {
 export function isRegistrationRequest(request: Request): boolean {
   return request.nlu!.tokens.some(token => REGISTRATION_WORDS.includes(token.toLocaleLowerCase()));
 }
+
+export function isVersionRequest(request: Request): boolean {
+  return normalizeCommand(request) === 'версия' || normalizeCommand(request) === 'скажи версию';
+}

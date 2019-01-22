@@ -1,6 +1,6 @@
 {
   "name": "@exromany/alice-proxy-skill",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "alice skill to help testing other skills",
   "main": "src/index.js",
   "repository": "github.com/exromany/alice-proxy",
