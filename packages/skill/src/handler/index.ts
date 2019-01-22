@@ -17,7 +17,7 @@ export async function handler(aliceRequest: Question): Promise<CustomResponse> {
 
   if (isFirstEmptyRequest(request, session)) {
     if (userSession) {
-      return restoreWelcomeMessage;
+      return restoreWelcomeMessage(userSession.skill_id);
     }
     return welcomeMessage;
   }
